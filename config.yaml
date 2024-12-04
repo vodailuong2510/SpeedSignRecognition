@@ -1,0 +1,28 @@
+data:
+  link: "https://d17h27t6h515a5.cloudfront.net/topher/2017/February/5898cd6f_traffic-signs-data/traffic-signs-data.zip"
+  train_path: "./data/train"
+  test_path: "./data/test"
+  image_size: [256, 256]
+  augmentations:
+    - "flip"
+    - "rotation"
+    - "zoom"
+  split_ratio:
+    train: 0.75
+    val: 0.25
+
+training:
+  batch_size: 32
+  epochs: 10
+  learning_rate: 0.001
+  optimizer: "adam"
+  loss_function: "categorical_crossentropy"
+  metrics:
+    - "accuracy"
+    - "precision"
+    - "recall"
+
+output: 
+  model_save_path: "./best_model.h5"
+  plot_path:
+
