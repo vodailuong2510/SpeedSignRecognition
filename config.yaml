@@ -1,5 +1,5 @@
 data:
-  link: "https://docs.google.com/uc?export=download&id=1aLVUEKzxGEs5D27HUUSzF_7GFNbOOVAX"
+  link: "https://docs.google.com/uc?export=download&id=1xsuwwGQEpXYC8Ow_LyuTCV0mVUe9yQTa"
   data_path: "./data"
   zip_path: "./CV_Data.zip"
   train_path: "./data/train"
@@ -13,11 +13,11 @@ data:
     train: 0.75
     val: 0.25
   class_names:
-    0: End of All Restrictions
-    1: End of Minimum Speed
-    2: End of Speed Limit
-    3: Minimum Speed
-    4: Speed Limit
+    0: 40
+    1: 50
+    2: 60
+    3: Other
+  resize: [256, 256]
 
 training:
   batch_size: 32

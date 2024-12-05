@@ -14,7 +14,7 @@ def unzip(zip_path:str, extract_path:str):
 
     print("Extracted files successfully")
 
-def read_data(path : str):
+def read_data(path : str, resize):
     data_path = Path(path)
     data_folders= data_path.iterdir()
 
@@ -29,8 +29,15 @@ def read_data(path : str):
 
                 if img is not None:
                     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-                    img = cv2.resize(img, (256, 256))
+                    img = cv2.resize(img, resize)
                     images.append(img)
                     labels.append(label)
 
     return images, labels
+
+def preprocessing_images(images):
+    images = images / 255.0
+    return images
+
+def augment(images):
+    pass
