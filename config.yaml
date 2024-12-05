@@ -1,5 +1,7 @@
 data:
-  link: "https://d17h27t6h515a5.cloudfront.net/topher/2017/February/5898cd6f_traffic-signs-data/traffic-signs-data.zip"
+  link: "https://docs.google.com/uc?export=download&id=1aLVUEKzxGEs5D27HUUSzF_7GFNbOOVAX"
+  data_path: "./data"
+  zip_path: "./CV_Data.zip"
   train_path: "./data/train"
   test_path: "./data/test"
   image_size: [256, 256]
@@ -10,6 +12,12 @@ data:
   split_ratio:
     train: 0.75
     val: 0.25
+  class_names:
+    0: End of All Restrictions
+    1: End of Minimum Speed
+    2: End of Speed Limit
+    3: Minimum Speed
+    4: Speed Limit
 
 training:
   batch_size: 32
@@ -23,6 +31,7 @@ training:
     - "recall"
 
 output: 
-  model_save_path: "./best_model.h5"
-  plot_path:
+  plot: True
+  model_save_path: "./results/best_model.h5"
+  plot_path: "./results"
 
