@@ -1,8 +1,9 @@
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
+import joblib
 
-def SVC_training_with_GridSearch(images, labels):
+def SVC_training_with_GridSearch(images, labels, model_path):
     print("Start training with SVM")
 
     param_grid = {
@@ -19,9 +20,10 @@ def SVC_training_with_GridSearch(images, labels):
     print(f"Best parameters: {grid_search.best_params_}")
     print("Finish training")
 
+    joblib.dump(rid_search.best_estimator_, model_path)
     return grid_search.best_estimator_
 
-def RandomForest_training_with_GridSearch(images, labels):
+def RandomForest_training_with_GridSearch(images, labels, model_path):
     print("Start training with Random Forest using GridSearch")
     
     param_grid = {
@@ -40,4 +42,5 @@ def RandomForest_training_with_GridSearch(images, labels):
     print(f"Best parameters: {grid_search.best_params_}")
     print("Finish training")
 
+    joblib.dump(model_path, 'rf_model.pkl')
     return grid_search.best_estimator_

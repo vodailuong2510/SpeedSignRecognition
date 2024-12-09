@@ -1,10 +1,10 @@
 data:
-  link: "https://docs.google.com/uc?export=download&id=1ReoWq50snsYoqJR6pcFxVc0LjGlIlyqX"
+  link: "https://docs.google.com/uc?export=download&id=1YGQLQyMgwjTTIcIPv7Cj31O2BX1Fhl5X"
   data_path: "./data"
   extract_path: "./"
   zip_path: "./data.zip"
   split_ratio:
-    test_size : 0.4
+    test_size : 0.2
   class_names:
     0: End of All Restrictions
     1: End of minimum speed limit 60 km/h
@@ -22,7 +22,5 @@ data:
   resize: [128, 128]
 
 output: 
-  plot: True
-  model_save_path: "./results/best_model.h5"
-  plot_path: "./results"
-
+  SVM_save_path: "./SVM_best_model.h5"
+  RF_save_path: "./RF_best_model.h5"
