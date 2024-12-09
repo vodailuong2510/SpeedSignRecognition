@@ -1,5 +1,5 @@
-import pandas as pd
-from pathlib import Path
+import wget
+import zipfile
 import random
 import matplotlib.pyplot as plt
 
@@ -15,3 +15,18 @@ def plot_images(images, labels, class_names, title="", num_images=5):
     
     plt.suptitle(title)
     plt.show()
+
+def download(link:str):
+    print("Start downloading data")
+
+    wget.download(link)
+
+    print("\nDownloaded data successfully")
+
+def unzip(zip_path:str, extract_path:str):
+    print("Start extracting files")
+
+    with zipfile.ZipFile(zip_path, "r") as zip_ref:
+        zip_ref.extractall(extract_path)
+
+    print("Extracted files successfully")

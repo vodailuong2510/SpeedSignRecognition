@@ -1,34 +1,25 @@
 data:
-  link: "https://docs.google.com/uc?export=download&id=1xsuwwGQEpXYC8Ow_LyuTCV0mVUe9yQTa"
+  link: "https://docs.google.com/uc?export=download&id=1ReoWq50snsYoqJR6pcFxVc0LjGlIlyqX"
   data_path: "./data"
-  zip_path: "./CV_Data.zip"
-  train_path: "./data/train"
-  test_path: "./data/test"
-  image_size: [256, 256]
-  augmentations:
-    - "flip"
-    - "rotation"
-    - "zoom"
+  extract_path: "./"
+  zip_path: "./data.zip"
   split_ratio:
-    train: 0.75
-    val: 0.25
+    test_size : 0.4
   class_names:
-    0: 40
-    1: 50
-    2: 60
-    3: Other
-  resize: [256, 256]
-
-training:
-  batch_size: 32
-  epochs: 10
-  learning_rate: 0.001
-  optimizer: "adam"
-  loss_function: "categorical_crossentropy"
-  metrics:
-    - "accuracy"
-    - "precision"
-    - "recall"
+    0: End of All Restrictions
+    1: End of minimum speed limit 60 km/h
+    2: End of minimum speed limit 80 km/h
+    3: End of speed limit 40 km/h
+    4: End of speed limit 50 km/h
+    5: End of speed limit 60 km/h
+    6: Minimum speed 60km/h
+    7: Minimum speed 80km/h
+    8: Speed limit 30km/h
+    9: Speed limit 40km/h
+    10: Speed limit 50km/h
+    11: Speed limit 60km/h
+    12: Speed limit 80km/h
+  resize: [128, 128]
 
 output: 
   plot: True

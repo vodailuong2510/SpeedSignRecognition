@@ -1,8 +1,11 @@
 import yaml
-from Sign_Recognition.preprocessing import download, unzip, read_data, preprocessing_images
-from Sign_Recognition.utils import plot_images
-from Sign_Recognition.features import roi_features
-from Sign_Recognition.models import SVC_training
+from Sign_Recognition.preprocessing import read_data, preprocessing
+from Sign_Recognition.utils import plot_images, download, unzip
+from Sign_Recognition.models import SVC_training_with_GridSearch, RandomForest_training_with_GridSearch
+from sklearn.model_selection import train_test_split
+from Sign_Recognition.evaluate import evaluate
+from Sign_Recognition.features import hog_features
+
 
 config_path = "./config.yaml"
 with open(config_path, "r") as file:
@@ -10,18 +13,26 @@ with open(config_path, "r") as file:
     print("Read configuration file successfully")
 
 # download(config["data"]["link"])
-# unzip(config["data"]["zip_path"], config["data"]["data_path"])
+# unzip(config["data"]["zip_path"], config["data"]["extract_path"])
 
-train_path = config["data"]["train_path"]
-test_path = config["data"]["test_path"]
+data_path = config["data"]["data_path"]
 class_names = config["data"]["class_names"]
+resize = config["data"]["resize"]
 
-trainX, trainY = read_data(train_path, config["data"]["resize"])
-# testX, testY = read_data(test_path, config["data"]["resize"])
+images, labels = read_data(data_path)
 
-trainX, testX = preprocessing_images(trainX), preprocessing_images(testX)
+trainX, testX, trainY, testY = train_test_split(images, labels, test_size=config["data"]["split_ratio"]["test_size"], random_state=22520834)
 
-if config["output"]["plot"]:
-    plot_images(trainX, trainY, class_names, title = "Train Images", num_images=5)
-    # plot_images(testX, testY, class_names, title="Test Images", num_images=5)
+trainX, trainY = preprocessing(trainX, trainY, resize)
+testX, testY = preprocessing(testX, testY, resize)
+
+# if config["output"]["plot"]:
+#     plot_images(trainX, trainY, class_names, title = "Train Images", num_images=10)
+#     plot_images(testX, testY, class_names, title="Test Images", num_images=5)
+train_features = hog_features(trainX)
+test_features = hog_features(testX)
+
+svc = SVC_training_with_GridSearch(train_features, trainY)
+
+evaluate(test_features, testY, svc)
 

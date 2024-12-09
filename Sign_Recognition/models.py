@@ -1,24 +1,43 @@
-import cv2
-import numpy as np
 from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import GridSearchCV
 
-def detect_sign(images):
-    hsv_images = cv2.cvtColor(images, cv2.COLOR_RGB2HSV)
+def SVC_training_with_GridSearch(images, labels):
+    print("Start training with SVM")
 
-    lower_red1 = np.array([0, 70, 50])
-    upper_red1 = np.array([10, 255, 255])
-    lower_red2 = np.array([170, 70, 50])
-    upper_red2 = np.array([180, 255, 255])
+    param_grid = {
+        'C': [0.1, 1, 10],             
+        'gamma': ['scale', 'auto'],     
+        'kernel': ['linear', 'poly', 'rbf']             
+    }
 
-    mask1 = cv2.inRange(hsv_images, lower_red1, upper_red1)
-    mask2 = cv2.inRange(hsv_images, lower_red2, upper_red2)
-    mask = mask1 | mask2
+    clf = SVC()
 
-    contours, _ = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    return contours, mask
+    grid_search = GridSearchCV(estimator=clf, param_grid=param_grid, cv=5, n_jobs=-1)
+    grid_search.fit(images, labels)
 
-def SVC_training(images, labels, kernel:str):
-    print("Start training")
-    clf = SVC(kernel=kernel)
-    clf.fit(images, labels)
+    print(f"Best parameters: {grid_search.best_params_}")
     print("Finish training")
+
+    return grid_search.best_estimator_
+
+def RandomForest_training_with_GridSearch(images, labels):
+    print("Start training with Random Forest using GridSearch")
+    
+    param_grid = {
+        'n_estimators': [50, 100, 200],        
+        'max_depth': [None, 10, 20, 30],       
+        'min_samples_split': [2, 5, 10],     
+        'min_samples_leaf': [1, 2, 4],        
+        'max_features': ['auto', 'sqrt', 'log2'],  
+    }
+
+    rf = RandomForestClassifier(random_state=22520834)
+
+    grid_search = GridSearchCV(estimator=rf, param_grid=param_grid, cv=5, n_jobs=-1)
+    grid_search.fit(images, labels)
+
+    print(f"Best parameters: {grid_search.best_params_}")
+    print("Finish training")
+
+    return grid_search.best_estimator_

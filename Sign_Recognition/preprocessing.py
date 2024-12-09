@@ -1,43 +1,38 @@
-import wget
-import zipfile
 import cv2
 from pathlib import Path
+import numpy as np
+import re
 
-def download(link:str):
-    wget.download(link)
+def read_data(path : str):
+    print("Start reading data")
 
-    print("\nDownloaded data successfully")
+    img_path = Path(path + "/images")
+    img_files = sorted(img_path.iterdir(), key=lambda x: int(re.search(r'\d+', x.name).group()))
 
-def unzip(zip_path:str, extract_path:str):
-    with zipfile.ZipFile(zip_path, "r") as zip_ref:
-        zip_ref.extractall(extract_path)
-
-    print("Extracted files successfully")
-
-def read_data(path : str, resize):
-    data_path = Path(path)
-    data_folders= data_path.iterdir()
+    label_path = Path(path +"/labels.txt")
+    with open(label_path, 'r') as file:
+        labels = [int(line.strip()) for line in file]
 
     images = []
-    labels = []
 
-    for i, folder in enumerate(data_folders):
-        label = i
-        for img_path in folder.iterdir():
-            if img_path.suffix in ['.jpg', '.png']:
-                img = cv2.imread(str(img_path))
+    for img_path in img_files:
+        if img_path.suffix in ['.jpg', '.png', '.jpeg']:
+            img = cv2.imread(str(img_path))
 
-                if img is not None:
-                    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-                    img = cv2.resize(img, resize)
-                    images.append(img)
-                    labels.append(label)
+            if img is not None:
+                img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+                images.append(img)
 
+    print("Read data successfully")
     return images, labels
 
-def preprocessing_images(images):
-    images = images / 255.0
-    return images
+def preprocessing(images, labels, resize):
+    for i in range(len(images)):
+        images[i] = cv2.resize(images[i], resize)
+        images[i] = cv2.GaussianBlur(images[i], (5, 5), 0)
+        images[i] = cv2.normalize(images[i], None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX)
 
-def augment(images):
-    pass
+    images = np.array(images) #/ 255.0
+    labels = np.array(labels)
+
+    return images, labels

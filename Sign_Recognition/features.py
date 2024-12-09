@@ -1,24 +1,18 @@
 import cv2
+import numpy as np
 from skimage.feature import hog
-from .models import detect_sign
 
-def hog_features(image):
-    features, _ = hog(image, orientations=9, pixels_per_cell=(8,8), cells_per_block=(2,2), visualize=True, multichannel=True)
-    return features
+def augment(images):
+    pass
 
-def roi_features(images):
-    roi_images = []
 
-    for image in images:
-        contours, _ = detect_sign(image)
 
-        for contour in contours:
-            x, y, w, h = cv2.boundingRect(contour)
-            roi = image[y:y+h, x:x+w]
-            try:
-                features = hog_features(roi)
-                roi_images.append(features)
-            except:
-                continue
-        
-    return images
+def hog_features(images):
+    hog_features = []
+    for i in range(len(images)):
+        img = cv2.cvtColor(images[i], cv2.COLOR_RGB2GRAY)
+        features, _ = hog(img, orientations=9, pixels_per_cell=(8,8), cells_per_block=(2,2), block_norm="L2-Hys", visualize=True)
+
+        hog_features.append(features)
+
+    return np.array(hog_features)
