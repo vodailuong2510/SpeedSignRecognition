@@ -3,6 +3,7 @@ from pathlib import Path
 import numpy as np
 import re
 import albumentations as A
+from imblearn.over_sampling import SMOTE
 
 def read_data(path : str):
     print("Start reading data")
@@ -62,3 +63,10 @@ def preprocessing_augment(images, labels, resize, augment = False, weight = 5):
 
         print("Finish preprocessing")
         return np.array(images), np.array(labels)
+    
+def over_sampling(images, labels, resize):
+    smote = SMOTE(random_state=22520834)
+    images, labels = smote.fit_resample(images.reshape(len(images), -1), labels)
+    images = images.reshape(-1, resize[0], resize[1], 3)
+
+    return np.array(images), np.array(labels)
