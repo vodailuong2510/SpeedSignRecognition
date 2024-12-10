@@ -4,7 +4,7 @@ data:
   extract_path: "./"
   zip_path: "./data.zip"
   split_ratio:
-    test_size : 0.2
+    test_size : 0.3
   class_names:
     0: End of All Restrictions
     1: End of minimum speed limit 60 km/h
@@ -22,5 +22,5 @@ data:
   resize: [128, 128]
 
 output: 
-  SVM_save_path: "./SVM_best_model.h5"
-  RF_save_path: "./RF_best_model.h5"
+  SVM_save_path: "./SVM_model.h5"
+  RF_save_path: "./RF_model.pkl"

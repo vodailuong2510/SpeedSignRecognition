@@ -9,7 +9,7 @@ def SVC_training_with_GridSearch(images, labels, model_path):
     param_grid = {
         'C': [0.1, 1, 10],             
         'gamma': ['scale', 'auto'],     
-        'kernel': ['linear', 'poly', 'rbf']             
+        'kernel': ['poly', 'rbf']             
     }
 
     clf = SVC()
@@ -20,7 +20,7 @@ def SVC_training_with_GridSearch(images, labels, model_path):
     print(f"Best parameters: {grid_search.best_params_}")
     print("Finish training")
 
-    joblib.dump(rid_search.best_estimator_, model_path)
+    joblib.dump(grid_search.best_estimator_, model_path)
     return grid_search.best_estimator_
 
 def RandomForest_training_with_GridSearch(images, labels, model_path):
@@ -28,10 +28,10 @@ def RandomForest_training_with_GridSearch(images, labels, model_path):
     
     param_grid = {
         'n_estimators': [50, 100, 200],        
-        'max_depth': [None, 10, 20, 30],       
+        'max_depth': [10, 20, 30],       
         'min_samples_split': [2, 5, 10],     
         'min_samples_leaf': [1, 2, 4],        
-        'max_features': ['auto', 'sqrt', 'log2'],  
+        'class_weight': ['balanced', 'balanced_subsample']
     }
 
     rf = RandomForestClassifier(random_state=22520834)
@@ -42,5 +42,5 @@ def RandomForest_training_with_GridSearch(images, labels, model_path):
     print(f"Best parameters: {grid_search.best_params_}")
     print("Finish training")
 
-    joblib.dump(model_path, 'rf_model.pkl')
+    joblib.dump(grid_search.best_estimator_, model_path)
     return grid_search.best_estimator_

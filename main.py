@@ -23,17 +23,18 @@ images, labels = read_data(data_path)
 
 trainX, testX, trainY, testY = train_test_split(images, labels, test_size=config["data"]["split_ratio"]["test_size"], random_state=22520834)
 
-trainX, trainY = preprocessing_augment(trainX, trainY, resize, augment = True)
-testX, testY = preprocessing_augment(testX, testY, resize, augment = True)
+# trainX, trainY = preprocessing_augment(trainX, trainY, resize, augment = True, weight = 5)
+testX, testY = preprocessing_augment(testX, testY, resize, augment = True, weight = 1)
 
 # if config["output"]["plot"]:
 #     plot_images(trainX, trainY, class_names, title = "Train Images", num_images=10)
 #     plot_images(testX, testY, class_names, title="Test Images", num_images=10)
 
-train_features = hog_features(trainX)
+# train_features = hog_features(trainX)
 test_features = hog_features(testX)
 
-svc = SVC_training_with_GridSearch(train_features, trainY, config["output"]["SVM_save_path"])
-
+# svc = SVC_training_with_GridSearch(train_features, trainY, config["output"]["SVM_save_path"])
 evaluate(test_features, testY, config["output"]["SVM_save_path"])
 
+# rf = RandomForest_training_with_GridSearch(train_features, trainY, config["output"]["RF_save_path"])
+evaluate(test_features, testY, config["output"]["RF_save_path"])

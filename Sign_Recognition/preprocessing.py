@@ -27,7 +27,7 @@ def read_data(path : str):
     print("Read data successfully")
     return images, labels
 
-def preprocessing_augment(images, labels, resize, augment = False):
+def preprocessing_augment(images, labels, resize, augment = False, weight = 5):
     print("Start preprocessing")
     if augment:
         augmentation = A.Compose([
@@ -43,7 +43,7 @@ def preprocessing_augment(images, labels, resize, augment = False):
 
         for img, label in zip(images, labels):
             img = img.astype(np.uint8) 
-            for _ in range(10): 
+            for _ in range(weight): 
                 aug_img = augmentation(image=img)["image"]
                 augmented_images.append(aug_img)
                 augmented_labels.append(label)
