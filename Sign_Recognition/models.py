@@ -34,7 +34,7 @@ def RandomForest_training_with_GridSearch(images, labels, model_path):
         'class_weight': ['balanced', 'balanced_subsample']
     }
 
-    rf = RandomForestClassifier(random_state=22520834)
+    rf = RandomForestClassifier(random_state=22520834, bootstrap=True)
 
     grid_search = GridSearchCV(estimator=rf, param_grid=param_grid, cv=5, n_jobs=-1)
     grid_search.fit(images, labels)
