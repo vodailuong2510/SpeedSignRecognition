@@ -2,6 +2,7 @@ import wget
 import zipfile
 import random
 import matplotlib.pyplot as plt
+random.seed(22520834)
 
 def plot_images(images, labels, class_names, title="", num_images=5):
     random_indices = random.sample(range(len(images)), num_images)
@@ -9,7 +10,7 @@ def plot_images(images, labels, class_names, title="", num_images=5):
     plt.figure(figsize=(15, 15))
     for i, idx in enumerate(random_indices):
         plt.subplot(num_images//5 + 1, 5, i+1)
-        plt.imshow(images[idx])
+        plt.imshow(images[idx], cmap = "gray")
         plt.title(class_names[labels[idx]])
         plt.axis("off")
     

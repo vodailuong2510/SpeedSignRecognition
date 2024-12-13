@@ -28,9 +28,8 @@ images, labels = preprocessing_augment(images, labels, resize, augment = True, w
 
 trainX, testX, trainY, testY = train_test_split(images, labels, test_size=test_size, random_state=22520834)
 
-# if config["output"]["plot"]:
-#     plot_images(trainX, trainY, class_names, title = "Train Images", num_images=10)
-#     plot_images(testX, testY, class_names, title="Test Images", num_images=10)
+# plot_images(trainX, trainY, class_names, title = "Train Images", num_images=10)
+# plot_images(testX, testY, class_names, title="Test Images", num_images=10)
 
 # train_features = hog_features(trainX)
 test_features = hog_features(testX)

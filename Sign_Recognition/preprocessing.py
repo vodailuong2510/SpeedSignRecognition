@@ -3,7 +3,7 @@ from pathlib import Path
 import numpy as np
 import re
 import albumentations as A
-from imblearn.over_sampling import SMOTE
+from imblearn.over_sampling import RandomOverSampler
 
 def read_data(path : str):
     print("Start reading data")
@@ -32,11 +32,10 @@ def preprocessing_augment(images, labels, resize, augment = False, weight = 5):
     print("Start preprocessing")
     if augment:
         augmentation = A.Compose([
-            A.Rotate(limit=30, p=0.5),  
+            A.Rotate(limit=15, p=0.5),  
             A.GaussianBlur(blur_limit=(3, 7), p=0.5), 
-            A.RandomBrightnessContrast(brightness_limit=0.2, contrast_limit=0.2, p=0.5), 
-            A.ShiftScaleRotate(shift_limit=0.2, scale_limit=0.2, p=0.5),
-            A.Resize(resize[1], resize[0])  
+            A.RandomBrightnessContrast(brightness_limit=0.15, contrast_limit=0.15, p=0.5), 
+            A.ShiftScaleRotate(shift_limit=0.1, scale_limit=0.2, p=0.5),
         ])
 
         augmented_images = []
@@ -49,18 +48,21 @@ def preprocessing_augment(images, labels, resize, augment = False, weight = 5):
                 augmented_images.append(aug_img)
                 augmented_labels.append(label)
 
-            original_img = cv2.resize(img, resize)
-            augmented_images.append(original_img)
+            augmented_images.append(img)
             augmented_labels.append(label)
 
+        augmented_images = [cv2.resize(img, resize) for img in augmented_images]
         augmented_images = [cv2.GaussianBlur(img, (5, 5), 0) for img in augmented_images]
+        augmented_images = [cv2.cvtColor(img, cv2.COLOR_RGB2GRAY) for img in augmented_images]
         augmented_images = [cv2.normalize(img, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX) for img in augmented_images]
+
         print("Finish preprocessing")
         return np.array(augmented_images), np.array(augmented_labels)
 
     else:
         images = [cv2.resize(img, resize) for img in images]
         images = [cv2.GaussianBlur(img, (5, 5), 0) for img in images]
+        images = [cv2.cvtColor(img, cv2.COLOR_RGB2GRAY) for img in images]
         images = [cv2.normalize(img, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX) for img in images]
 
         print("Finish preprocessing")
@@ -70,8 +72,12 @@ def over_sampling(images, labels, resize):
     images = [cv2.resize(img, resize) for img in images]
     images = np.array(images)
 
-    smote = SMOTE(random_state=22520834)
-    images, labels = smote.fit_resample(images.reshape(len(images), -1), labels)
-    images = images.reshape(-1, resize[0], resize[1], 3)
+    images_flat = images.reshape(len(images), -1)
 
-    return np.array(images), np.array(labels)
+    ros = RandomOverSampler(random_state=22520834)
+    
+    images_resampled, labels_resampled = ros.fit_resample(images_flat, labels)
+
+    images_resampled = images_resampled.reshape(-1, resize[0], resize[1], 3)
+
+    return np.array(images_resampled), np.array(labels_resampled)

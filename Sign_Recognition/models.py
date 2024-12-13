@@ -4,7 +4,7 @@ from sklearn.model_selection import GridSearchCV
 import joblib
 
 def SVC_training_with_GridSearch(images, labels, model_path):
-    print("Start training with SVM")
+    print("Start training with SVM Random Forest using Grid Search")
 
     param_grid = {
         'C': [0.1, 1, 10],             
@@ -24,7 +24,7 @@ def SVC_training_with_GridSearch(images, labels, model_path):
     return grid_search.best_estimator_
 
 def RandomForest_training_with_GridSearch(images, labels, model_path):
-    print("Start training with Random Forest using GridSearch")
+    print("Start training with Random Forest Random Forest using Grid Search")
     
     param_grid = {
         'n_estimators': [50, 100, 200],        

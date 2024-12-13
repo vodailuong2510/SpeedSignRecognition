@@ -1,4 +1,4 @@
-from sklearn.metrics import classification_report, accuracy_score
+from sklearn.metrics import classification_report
 import joblib
 from sklearn.metrics import confusion_matrix
 import seaborn as sns
@@ -9,7 +9,6 @@ def evaluate(images, labels, class_names, model_path):
     model = joblib.load(model_path)
     y_pred = model.predict(images)
     print(classification_report(labels, y_pred))
-    print(f"Accuracy: {accuracy_score(labels, y_pred):.2f}")
 
     cm = confusion_matrix(labels, y_pred)
 

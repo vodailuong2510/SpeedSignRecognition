@@ -23,20 +23,21 @@ def preprocessing(images, resize):
 model = joblib.load(r"C:\Users\vodai\Downloads\projects\SpeedSignRecognition\SVM_model.h5")
 
 class_names = {
-    0: "End of All Restrictions",
-    1: "End of minimum speed limit 60 km/h",
-    2: "End of minimum speed limit 80 km/h",
-    3: "End of speed limit 40 km/h",
-    4: "End of speed limit 50 km/h",
-    5: "End of speed limit 60 km/h",
-    6: "Minimum speed 60 km/h",
-    7: "Minimum speed 80 km/h",
-    8: "Speed limit 30 km/h",
-    9: "Speed limit 40 km/h",
-    10: "Speed limit 50 km/h",
-    11: "Speed limit 60 km/h",
-    12: "Speed limit 80 km/h"
+    0: "Hết tất cả lệnh cấm",
+    1: "Hết giới hạn tốc độ tối thiểu 60km/h",
+    2: "Hết giới hạn tốc độ tối thiểu 80km/h",
+    3: "Hết giới hạn tốc độ tối đa 40km/h",
+    4: "Hết giới hạn tốc độ tối đa 50km/h",
+    5: "Hết giới hạn tốc độ tối đa 60km/h",
+    6: "Tốc độ tối thiểu 60km/h",
+    7: "Tốc độ tối thiểu 80km/h",
+    8: "Tốc độ tối đa 30km/h",
+    9: "Tốc độ tối đa 40km/h",
+    10: "Tốc độ tối đa 50km/h",
+    11: "Tốc độ tối đa 60km/h",
+    12: "Tốc độ tối đa 80km/h"
 }
+
 
 app = Flask(__name__)
 
@@ -112,13 +113,13 @@ HTML_TEMPLATE = """
 </head>
 <body>
     <div class="container">
-        <h1>Traffic Sign Recognition</h1>
+        <h1>Nhận diện biển báo tốc độ</h1>
         <form action="/predict" method="post" enctype="multipart/form-data">
             <div class="file-input-wrapper">
                 <input type="file" name="file" id="file" accept="image/*" required onchange="previewAndResize(event)">
             </div>
             <img id="resized" alt="" class="resized">
-            <button type="submit">Upload and Predict</button>
+            <button type="submit">Tải lên và dự đoán</button>
         </form>
     </div>
 
@@ -236,10 +237,10 @@ def predict():
     </head>
     <body>
         <div class="container">
-            <h1>Prediction Result</h1>
+            <h1>Kết quả dự đoán</h1>
             <img src="data:image/jpeg;base64,{resized_img_base64}" alt="Resized Image" />
-            <p><strong>Predicted Class:</strong> {predicted_class}</p>
-            <a href="/">Go Back</a>
+            <p><strong>Nhãn dự đoán:</strong> {predicted_class}</p>
+            <a href="/">Quay lại</a>
         </div>
     </body>
     </html>

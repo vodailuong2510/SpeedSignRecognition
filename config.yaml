@@ -7,18 +7,18 @@ data:
     test_size : 0.3
   class_names:
     0: End of All Restrictions
-    1: End of minimum speed limit 60 km/h
-    2: End of minimum speed limit 80 km/h
-    3: End of speed limit 40 km/h
-    4: End of speed limit 50 km/h
-    5: End of speed limit 60 km/h
-    6: Minimum speed 60km/h
-    7: Minimum speed 80km/h
-    8: Speed limit 30km/h
-    9: Speed limit 40km/h
-    10: Speed limit 50km/h
-    11: Speed limit 60km/h
-    12: Speed limit 80km/h
+    1: End of Minimum Speed Limit 60km/h
+    2: End of Minimum Speed Limit 80km/h
+    3: End of Maximum Speed Limit 40km/h
+    4: End of Maximum Speed Limit 50km/h
+    5: End of Maximum Speed Limit 60km/h
+    6: Minimum Speed Limit 60km/h
+    7: Minimum Speed Limit 80km/h
+    8: Maximum Speed Limit 30km/h
+    9: Maximum Speed Limit 40km/h
+    10: Maximum Speed Limit 50km/h
+    11: Maximum Speed Limit 60km/h
+    12: Maximum Speed Limit 80km/h
   resize: [128, 128]
 
 output: 
